@@ -18,6 +18,8 @@ class AuthorizeNetSIM extends AuthorizeNetResponse
     // For ARB transactions
     public $subscription_id;
     public $subscription_paynum;
+    public $api_login_id;
+    public $md5_setting;
 
     /**
      * Constructor.
@@ -88,6 +90,8 @@ class AuthorizeNetSIM extends AuthorizeNetResponse
  */
 class AuthorizeNetSIM_Form
 {
+    private $_custom_fields = array();
+
     public $x_address;
     public $x_amount;
     public $x_background_url;
@@ -101,6 +105,7 @@ class AuthorizeNetSIM_Form
     public $x_cust_id;
     public $x_customer_ip;
     public $x_description;
+    public $x_delim_char;
     public $x_delim_data;
     public $x_duplicate_window;
     public $x_duty;
@@ -170,6 +175,26 @@ class AuthorizeNetSIM_Form
             }
         }
     }
+
+    public function __get($name)
+    {
+        return isset($this->_custom_fields[$name]) ? $this->_custom_fields[$name] : null;
+    }
+
+    public function __set($name, $value)
+    {
+        $this->_custom_fields[$name] = $value;
+    }
+
+    public function __isset($name)
+    {
+        return isset($this->_custom_fields[$name]);
+    }
+
+    public function __unset($name)
+    {
+        unset($this->_custom_fields[$name]);
+    }
     
     /**
      * Get a string of HTML hidden fields for use in a form.
@@ -178,7 +203,11 @@ class AuthorizeNetSIM_Form
      */
     public function getHiddenFieldString()
     {
-        $array = (array)$this;
+        $array = get_object_vars($this);
+        unset($array['_custom_fields']);
+        foreach ($this->_custom_fields as $key => $value) {
+            $array[$key] = $value;
+        }
         $string = "";
         foreach ($array as $key => $value) {
             if ($value) {
