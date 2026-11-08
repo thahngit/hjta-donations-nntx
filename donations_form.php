@@ -127,8 +127,8 @@ if ( $numb_rows == 0): // SID does not exist in database
        $errmsg =  "Failed INSERT into " . VISIT_TBL ;
        // Send all people individually until looping / array method
        $toList = $DR_ADM1 ;
-       $lName  = $toList[0][name];
-       $lEmail = $toList[0][email];
+       $lName  = $toList[0]['name'];
+       $lEmail = $toList[0]['email'];
        $sendto =  $lEmail  ;
        // The SEND
        $rvOK = TRUE ;
@@ -177,8 +177,8 @@ else : //  SID already exists in the database
        $errmsg =  "Failed INSERT into " . VISIT_TBL  ;
        // Send all people individually until looping / array method
        $toList = $DR_ADM1 ;
-       $lName  = $toList[0][name];
-       $lEmail = $toList[0][email];
+       $lName  = $toList[0]['name'];
+       $lEmail = $toList[0]['email'];
        $sendto =  $lEmail  ;
        // The SEND
        $rvOK = TRUE ;
